@@ -1,107 +1,55 @@
 // Este es mi programa de calculadora sencilla.
-// Menu de opciones
-let num1;
-let num2;
+// Variables
 let repetir;
-let pregunta;
 let historial = [];
-
+// Menu de opciones
 do {
-  var opcion = Number(
+  let opcion = Number(
     prompt(
       `Bienvenido a la calculadora sencilla
       \nA continuacion elija la operacion que desee realizar
       \n1. Suma\n2. Resta\n3. Multiplicacion\n4. Division\n5. Historial`,
     ),
   );
-
-  //Switch con opciones
-  switch (opcion) {
-    //Suma
-    case 1:
-      do {
-        num1 = Number(prompt("Escriba el primer sumando: "));
-        num2 = Number(prompt("Escriba el segundo sumando: "));
-
-        let suma = sumar(num1, num2);
-
-        historial.push(num1 + " + " + num2 + " = " + suma);
-
-        alert("El resultado de la suma es: " + suma);
-
-        pregunta = confirm("Quisieras repetir la operacion?");
-      } while (pregunta == true);
-      repetir = confirm("Quisieras continuar con el programa?");
-      break;
-    //Resta
-    case 2:
-      do {
-        num1 = Number(prompt("Escriba el Minuendo: "));
-        num2 = Number(prompt("Escriba el Sustraendo: "));
-
-        let resta = restar(num1, num2);
-
-        historial.push(num1 + " - " + num2 + " = " + resta);
-
-        alert("El resultado de la Diferencia es: " + resta);
-
-        pregunta = confirm("Quisieras repetir la operacion?");
-      } while (pregunta == true);
-      repetir = confirm("Quisieras continuar con el programa?");
-      break;
-    //Multiplicacion
-    case 3:
-      do {
-        num1 = Number(prompt("Escriba el Multiplicando: "));
-        num2 = Number(prompt("Escriba el Multiplicador: "));
-
-        let multiplicacion = multiplicar(num1, num2);
-
-        historial.push(num1 + " * " + num2 + " = " + multiplicacion);
-
-        alert("El resultado de la Multiplicacion es: " + multiplicacion);
-
-        pregunta = confirm("Quisieras repetir la operacion?");
-      } while (pregunta == true);
-      repetir = confirm("Quisieras continuar con el programa?");
-      break;
-    //Division
-    case 4:
-      do {
-        num1 = Number(prompt("Escriba el Dividendo: "));
-        num2 = Number(prompt("Escriba el Divisor: "));
-
-        if (num2 != 0) {
-          var division = dividir(num1, num2);
-
-          historial.push(num1 + " ÷ " + num2 + " = " + division);
-
-          alert("El resultado de la Division es: " + division);
-        } else {
-          alert("No se puede dividir por 0");
-        }
-        pregunta = confirm("Quisieras repetir la operacion?");
-      } while (pregunta == true);
-      repetir = confirm("Quisieras continuar con el programa?");
-      break;
-    //Historial
-    case 5:
-      let mensaje = "---Historial---\n";
-      for (let i = 0; i < historial.length; i++) {
-        mensaje += i + 1 + ".     " + historial[i] + "\n";
-      }
-      alert(mensaje);
-      break;
-    //mensaje de error
-    default:
-      alert(
-        "La opcion elegida no es correcta, por favor, intente con otro numero",
-      );
-      repetir = confirm("Quisieras continuar con el programa?");
-      break;
+  if (opcion >= 1 && opcion <= 4) {
+    ejecutarOperacion(opcion);
+  } else if (opcion === 5) {
+    mostrarHistorial();
+  } else {
+    alert("Opcion no valida, intente con una correcta.");
   }
+  repetir = confirm("Quisieras volver al menú principal?");
 } while (repetir == true);
+
 //Funciones
+function ejecutarOperacion(tipo) {
+  let continuar;
+  do {
+    let num1 = Number(prompt("Escriba el primer numero: "));
+    let num2 = Number(prompt("Escriba el segundo numero: "));
+    let resultado, simbolo;
+    if (tipo === 1) {
+      resultado = sumar(num1, num2);
+      simbolo = "+";
+    }
+    if (tipo === 2) {
+      resultado = restar(num1, num2);
+      simbolo = "-";
+    }
+    if (tipo === 3) {
+      resultado = multiplicar(num1, num2);
+      simbolo = "*";
+    }
+    if (tipo === 4) {
+      resultado = dividir(num1, num2);
+      simbolo = "÷";
+    }
+    historial.push(num1 + simbolo + num2 + " = " + resultado);
+    alert("Resultado de la operación: " + resultado);
+    continuar = confirm("Deseas repetir la operacion?");
+  } while (continuar == true);
+}
+
 function sumar(num1, num2) {
   return num1 + num2;
 }
@@ -112,5 +60,18 @@ function multiplicar(num1, num2) {
   return num1 * num2;
 }
 function dividir(num1, num2) {
+  if (num2 === 0) return "No se puede dividir por cero. Indefinido.";
   return num1 / num2;
+}
+
+function mostrarHistorial() {
+  if (historial.length == 0) {
+    alert("No hay nada en el historial por el momento.");
+  } else {
+    let mensaje = "---Historial---\n";
+    for (let i = 0; i < historial.length; i++) {
+      mensaje += i + 1 + ".  " + historial[i] + "\n";
+    }
+    alert(mensaje);
+  }
 }
